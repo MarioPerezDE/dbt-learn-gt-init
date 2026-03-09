@@ -1,23 +1,15 @@
+--The below configuration block sets the materialization for this model to 'view'. 
+--This means that when dbt runs, it will create a view in 
+--the database instead of a table. Views are virtual tables that 
 with customers as (
 
-    select
-        id as customer_id,
-        first_name,
-        last_name
-
-    from raw.jaffle_shop.customers
+    select * from {{ ref('stg_jaffle_shop_customers') }}
 
 ),
 
 orders as (
 
-    select
-        id as order_id,
-        user_id as customer_id,
-        order_date,
-        status
-
-    from raw.jaffle_shop.orders
+select * from {{ ref('stg_jaffle_shop_orders') }}    
 
 ),
 
@@ -33,9 +25,7 @@ customer_orders as (
     from orders
 
     group by 1
-
 ),
-
 
 final as (
 
