@@ -1,0 +1,20 @@
+sources:
+  - name: jaffle_shop
+    description: a clone of a snowflake database
+    database: raw
+    schema: jaffle_shop
+    tables:
+      - name: customers
+        description: Raw customers data
+        columns:
+          - name: id
+            description: the primary key 
+            data_tests:
+              - not_null
+              - unique
+      - name: orders
+        config:
+         freshness:
+           warn_after: {count: 24, period: hour}
+           error_after: {count: 48, period: hour}
+         loaded_at_field: _etl_loaded_at
